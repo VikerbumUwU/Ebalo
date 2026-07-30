@@ -9,3 +9,7 @@ router = APIRouter()
 @router.get("/")
 def get_responce(db: Session = Depends(get_db)):
     return PriceService(db).get_all_prices()
+
+@router.post("/")
+def create_price(db: Session = Depends(get_db)):
+    PriceService(db).create_price()
