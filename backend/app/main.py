@@ -1,27 +1,24 @@
-from fastapi import FastAPI
-from routes import tests_router, prices_router
-from database import init_db
-
+from fastapi import FastAPI, Depends
+from database import init_db, get_db
 import uvicorn
+from schemas.user import UserResponce, UserCreate
+from sqlalchemy.orm import Session
+from services.user import UserService
+
 
 app = FastAPI()
 
-app.include_router(
-    tests_router,
-    prefix="/tests",
-    tags=["users"]
-)
-
-app.include_router(
-    prices_router,
-    prefix="/prices",
-    tags=["prices"]
-)
+@app.on_event("startup")
+def startup():
+    init_db()
 
 @app.get("/")
 def home():
     return {"Hello": "world"}
 
+@app.post("/user", response_model=UserResponce)# потестить, потом в роутер
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    return UserService(db).create_user(user)
+
 if __name__ == "__main__":
-    init_db()
     uvicorn.run("main:app", host="0.0.0.0", port=8000)
