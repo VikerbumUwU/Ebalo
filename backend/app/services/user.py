@@ -18,7 +18,7 @@ class UserService():
         user_model = UserModel(
             name = user_scheme.name,
             email = user_scheme.email,
-            hash_password = self.ph.hash(user_scheme.password)
+            hash_password = user_scheme.password
         )
 
         return UserResponce.model_validate(self.repository.create_user(user_model))
