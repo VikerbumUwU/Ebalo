@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import tests_router
+from routes import tests_router, prices_router
 
 import uvicorn
 
@@ -9,6 +9,12 @@ app.include_router(
     tests_router,
     prefix="/tests",
     tags=["users"]
+)
+
+app.include_router(
+    prices_router,
+    prefix="/prices",
+    tags=["prices"]
 )
 
 @app.get("/")
