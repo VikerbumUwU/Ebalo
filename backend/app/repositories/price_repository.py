@@ -15,4 +15,4 @@ class PriceRepository():
             price = 1000
         )
         self.db.add(price)
-        self.db.commit
+        self.db.commit()
