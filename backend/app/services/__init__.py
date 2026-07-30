@@ -1,1 +1,1 @@
-from price_service import PriceService
+from .price_service import PriceService

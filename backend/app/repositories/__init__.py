@@ -1,1 +1,1 @@
-from price_repository import PriceRepository
+from .price_repository import PriceRepository
