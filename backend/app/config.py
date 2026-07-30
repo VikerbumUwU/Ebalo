@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     app_name: str = "Ebalo"
     debug: bool = True
     database_url: str = Field(
-        default="postgresql+psycopg://user:password@database:5432/db",
+        default="postgresql+psycopg://user:password@postgres:5432/db",
         alias="DATABASE_URL"
     )
 
