@@ -10,7 +10,7 @@ class UserService():
         self.ph = PasswordHasher(
             time_cost=3,
             memory_cost=16384,
-            parallelism=4
+            parallelism=1
         )
 
     def create_user(self, user_scheme: UserCreate) -> UserResponce:
