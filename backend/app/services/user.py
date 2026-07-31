@@ -9,16 +9,17 @@ class UserService():
         self.repository = UserRepository(db)
         self.ph = PasswordHasher(
             time_cost=3,
-            memory_cost=16384,
+            memory_cost=8192,
             parallelism=1
         )
 
     def create_user(self, user_scheme: UserCreate) -> UserResponce:
-
         user_model = UserModel(
             name = user_scheme.name,
             email = user_scheme.email,
-            hash_password = user_scheme.password
+            hash_password = self.ph.hash(user_scheme.password)
         )
 
         return UserResponce.model_validate(self.repository.create_user(user_model))
+
+    
