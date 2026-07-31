@@ -1,12 +1,14 @@
-from fastapi import FastAPI, Depends
-from database import init_db, get_db
+from fastapi import FastAPI
+from database import init_db
 import uvicorn
-from schemas.user import UserResponce, UserCreate
-from sqlalchemy.orm import Session
-from services.user import UserService
-
+from routes.auth import route as auth_route
 
 app = FastAPI()
+
+app.include_router(
+    auth_route
+)
+
 
 @app.on_event("startup")
 def startup():
@@ -16,9 +18,9 @@ def startup():
 def home():
     return {"Hello": "world"}
 
-@app.post("/user", response_model=UserResponce)# потестить, потом в роутер
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    return UserService(db).create_user(user)
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)
+
+

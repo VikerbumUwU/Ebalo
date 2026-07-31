@@ -7,9 +7,11 @@ class UserCreate(User):
     email: EmailStr
     password: str
 
-class UserLogin(User):
+class UserMeResponse(User):
+    id: int
     email: EmailStr
-    password: str
+    model_config = ConfigDict(from_attributes=True)
 
-class UserResponce(User):
+class UserPublicResponse(User):
+    id: int
     model_config = ConfigDict(from_attributes=True)

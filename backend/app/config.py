@@ -8,6 +8,7 @@ class Settings(BaseSettings):
         default="postgresql+psycopg://user:password@postgres:5432/db",
         alias="DATABASE_URL"
     )
+    jwt_key: str = "soros"
 
     model_config = SettingsConfigDict(
         env_file=".env",
