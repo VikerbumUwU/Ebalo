@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from schemas.token import AccessTokenPayload
 from argon2 import PasswordHasher
-from schemas.user import UserCreate, Use
+from schemas.user import UserCreate, UserMeResponse
 from schemas.auth import LoginRequest, LoginResponse, LoginErrorResponse
 from models.user import UserModel
 from repositories.user_repository import UserRepository
@@ -35,7 +35,13 @@ class AuthService():
         return self.token_service.create_access_token(AccessTokenPayload(sub = id))
 
     def login(self, login: LoginRequest) -> LoginResponse | LoginErrorResponse:
-        ...
+        user = self.repository.get_user_by_email(login.email)
+
+        if user.hash_password == self.ph.hash(login.password):
+            token = self.token_service.create_access_token(AccessTokenPayload(sub = user.id))
+            return LoginResponse(user = UserMeResponse(user), token=token)
+        else:
+            return LoginErrorResponse(code=401, message="Invalid password")
 
 
     
